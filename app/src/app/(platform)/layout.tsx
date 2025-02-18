@@ -1,3 +1,5 @@
+import Header from "@/components/shared/Header";
+
 export default function PlatformLayout({
   children,
 }: {
@@ -5,7 +7,7 @@ export default function PlatformLayout({
 }) {
   return (
     <>
-      <header></header>
+      <Header />
       <main>{children}</main>
       <footer></footer>
     </>
