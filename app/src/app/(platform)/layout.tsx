@@ -1,4 +1,4 @@
-import Header from "@/components/shared/Header";
+import Header from "@/components/shared/header";
 
 export default function PlatformLayout({
   children,
@@ -8,7 +8,9 @@ export default function PlatformLayout({
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <main className="bg-gradient-to-b from-purple-50 to-white min-h-screen">
+        <div className="container mx-auto px-4 py-6 max-w-4xl"> {children}</div>
+      </main>
       <footer></footer>
     </>
   );
