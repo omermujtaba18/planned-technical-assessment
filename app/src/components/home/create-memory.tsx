@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 
 const CreateMemory: React.FC = () => {
   return (
-    <section id="create-new-memory">
+    <section id="create-new-memory" className="mb-10">
       <Card>
         <CardContent className="flex flex-col gap-4">
           <div className="flex items-start space-x-4 ">
