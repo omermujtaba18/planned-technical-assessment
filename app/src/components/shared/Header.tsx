@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import React from "react";
 import { FaHouse, FaRegBell } from "react-icons/fa6";
@@ -10,8 +12,26 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { usePathname } from "next/navigation";
+import { PiBrainBold, PiPathBold } from "react-icons/pi";
 
 const Header: React.FC = () => {
+  const pathname = usePathname();
+
+  const navs = [
+    { href: "/", label: "Home", icon: <FaHouse /> },
+    {
+      href: "/memories",
+      label: "Memories",
+      icon: <PiBrainBold className="text-xl" />,
+    },
+    {
+      href: "/lanes",
+      label: "Lanes",
+      icon: <PiPathBold className="text-xl" />,
+    },
+  ];
+
   return (
     <header
       id="header"
@@ -22,14 +42,21 @@ const Header: React.FC = () => {
           <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-transparent bg-clip-text">
             MemoryLane
           </h1>
-          <nav className="hidden md:flex space-x-6">
-            <Link
-              className="text-gray-700 hover:text-indigo-600 cursor-pointer flex items-center space-x-2"
-              href="/"
-            >
-              <FaHouse />
-              <span>Home</span>
-            </Link>
+          <nav className="hidden md:flex space-x-2">
+            {navs.map((nav, index) => (
+              <Link
+                className={`text-gray-700 hover:text-indigo-600 cursor-pointer flex items-center space-x-2 py-2 px-4 ${
+                  pathname === nav.href
+                    ? "bg-purple-100 rounded-lg text-indigo-600 font-semibold"
+                    : ""
+                }`}
+                href={nav.href}
+                key={`nav-${index}`}
+              >
+                {nav.icon}
+                <span>{nav.label}</span>
+              </Link>
+            ))}
           </nav>
           <div className="flex items-center space-x-6">
             <button className="relative text-gray-700 hover:text-indigo-600">
