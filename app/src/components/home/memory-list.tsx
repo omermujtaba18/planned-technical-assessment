@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "@/components/ui/card";
-import { Button } from "../ui/button";
-import { PiPathBold, PiShareNetwork } from "react-icons/pi";
+import { Button } from "@/components/ui/button";
+
 import Image from "next/image";
 
 const MemoryList: React.FC = () => {
@@ -59,14 +59,14 @@ const MemoryList: React.FC = () => {
                   size="icon"
                   className="bg-indigo-600 p-2 rounded-full hover:bg-opacity-90 transition-all"
                 >
-                  <PiPathBold className="text-white" />
+                  <i className="ph ph-bold ph-path text-white"></i>
                 </Button>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="bg-indigo-600 p-2 rounded-full hover:bg-opacity-90 transition-all"
+                  className="bg-indigo-600 rounded-full hover:bg-opacity-90 transition-all"
                 >
-                  <PiShareNetwork className="text-white" />
+                  <i className="ph ph-share-network text-white"></i>
                 </Button>
               </div>
             </div>
