@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ABeeZee } from "next/font/google";
 import "./globals.css";
 
-const aBeeZee = ABeeZee({ weight: "400" });
+const aBeeZee = ABeeZee({ weight: "400", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,6 +16,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          src="https://unpkg.com/@phosphor-icons/web@2.1.1"
+          async
+        ></script>
+      </head>
       <body className={`${aBeeZee.className} antialiased`}>{children}</body>
     </html>
   );
