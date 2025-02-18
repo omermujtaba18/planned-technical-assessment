@@ -25,7 +25,7 @@ const Header: React.FC = () => {
           <nav className="hidden md:flex space-x-6">
             <Link
               className="text-gray-700 hover:text-indigo-600 cursor-pointer flex items-center space-x-2"
-              href="#"
+              href="/"
             >
               <FaHouse />
               <span>Home</span>
@@ -51,7 +51,9 @@ const Header: React.FC = () => {
               <DropdownMenuContent align="start">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Profile</DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link href="/settings">Settings</Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem>Logout</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
