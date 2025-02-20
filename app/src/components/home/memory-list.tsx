@@ -3,6 +3,12 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 import Image from "next/image";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const MemoryList: React.FC = () => {
   const memories = [
@@ -70,16 +76,25 @@ const MemoryList: React.FC = () => {
                 </Button>
               </div>
             </div>
-            <div className="p-6 flex flex-col gap-4">
-              <div className="flex items-center space-x-3">
+            <div className="p-4 flex flex-col gap-4">
+              <div className="flex items-start space-x-3 justify-between">
                 <div>
                   <h3 className="font-semibold text-gray-800">
                     {memory.title}
                   </h3>
                   <p className="text-sm text-gray-500">{memory.timestamp}</p>
                 </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="h-fit">
+                    <i className="ph ph-dots-three-outline"></i>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem>Edit</DropdownMenuItem>
+                    <DropdownMenuItem>Delete</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
-              <p className="text-gray-600 mb-4">{memory.description}</p>
+              <p className="text-gray-600 mb-4 text-sm">{memory.description}</p>
             </div>
           </Card>
         ))}
