@@ -6,6 +6,9 @@ import configuration, {
 } from './config/configuration';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { UsersModule } from './resources/users/users.module';
+import { AuthModule } from './resources/auth/auth.module';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './resources/auth/guards/jwt-auth/jwt-auth.guard';
 import { UsersService } from './resources/users/users.service';
 
 @Module({
@@ -28,8 +31,15 @@ import { UsersService } from './resources/users/users.service';
       inject: [ConfigService],
     }),
     UsersModule,
+    AuthModule,
   ],
   controllers: [],
-  providers: [UsersService],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+    UsersService,
+  ],
 })
 export class AppModule {}
