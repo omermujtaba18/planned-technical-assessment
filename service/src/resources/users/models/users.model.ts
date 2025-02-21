@@ -7,7 +7,9 @@ import {
   AutoIncrement,
   Unique,
   AllowNull,
+  HasMany,
 } from 'sequelize-typescript';
+import { Memory } from '../../memories/models/memories.model';
 
 @Table({
   tableName: 'users',
@@ -46,4 +48,7 @@ export class User extends Model<User> {
     type: DataType.STRING,
   })
   profilePicture: string;
+
+  @HasMany(() => Memory)
+  memories: Memory[];
 }
