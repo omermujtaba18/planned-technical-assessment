@@ -16,7 +16,7 @@ import { IConfiguration } from 'src/config/configuration';
     JwtModule.registerAsync({
       useFactory: async (configService: ConfigService<IConfiguration>) => ({
         secret: configService.get('jwtSecret'),
-        signOptions: { expiresIn: '60s' },
+        signOptions: { expiresIn: '1d' },
       }),
       inject: [ConfigService],
     }),
