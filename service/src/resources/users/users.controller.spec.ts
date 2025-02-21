@@ -11,6 +11,7 @@ describe('UsersController', () => {
   beforeEach(async () => {
     const mockUsersService = {
       update: jest.fn(),
+      findOne: jest.fn(),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -31,53 +32,81 @@ describe('UsersController', () => {
     expect(controller).toBeDefined();
   });
 
-  it('should call the service update method with correct parameters', async () => {
-    const updateUserDto: UpdateUserDto = { fullName: 'Updated Name' };
-    const userId = '1';
+  describe('update', () => {
+    it('should call the service update method with correct parameters', async () => {
+      const updateUserDto: UpdateUserDto = { fullName: 'Updated Name' };
+      const mockReq = { user: { id: 1 } };
 
-    (service.update as jest.Mock).mockResolvedValue({
-      id: 1,
-      email: 'test@example.com',
-      fullName: 'Updated Name',
-      profilePicture: null,
+      (service.update as jest.Mock).mockResolvedValue({
+        id: 1,
+        email: 'test@example.com',
+        fullName: 'Updated Name',
+        profilePicture: null,
+      });
+
+      await controller.update(mockReq, updateUserDto);
+
+      expect(service.update).toHaveBeenCalledWith(1, updateUserDto);
     });
 
-    await controller.update(userId, updateUserDto);
+    it('should throw a NotFoundException if user is not found', async () => {
+      const updateUserDto: UpdateUserDto = { fullName: 'Updated Name' };
+      const mockReq = { user: { id: 2 } };
 
-    expect(service.update).toHaveBeenCalledWith(+userId, updateUserDto);
-  });
+      (service.update as jest.Mock).mockRejectedValue(
+        new NotFoundException('User not found'),
+      );
 
-  it('should throw 404 error if user not found', async () => {
-    const updateUserDto: UpdateUserDto = { fullName: 'Updated Name' };
-    const userId = '2';
-
-    (service.update as jest.Mock).mockRejectedValue(
-      new NotFoundException('User not found'),
-    );
-
-    await expect(controller.update(userId, updateUserDto)).rejects.toThrow(
-      NotFoundException,
-    );
-  });
-
-  it('should return the updated user', async () => {
-    const updateUserDto: UpdateUserDto = { fullName: 'Updated Name' };
-    const userId = '1';
-
-    (service.update as jest.Mock).mockResolvedValue({
-      id: 1,
-      email: 'test@example.com',
-      fullName: 'Updated Name',
-      profilePicture: null,
+      await expect(controller.update(mockReq, updateUserDto)).rejects.toThrow(
+        NotFoundException,
+      );
     });
 
-    const result = await controller.update(userId, updateUserDto);
+    it('should return the updated user', async () => {
+      const updateUserDto: UpdateUserDto = { fullName: 'Updated Name' };
+      const mockReq = { user: { id: 1 } };
 
-    expect(result).toEqual({
-      id: 1,
-      email: 'test@example.com',
-      fullName: 'Updated Name',
-      profilePicture: null,
+      const updatedUser = {
+        id: 1,
+        email: 'test@example.com',
+        fullName: 'Updated Name',
+        profilePicture: null,
+      };
+
+      (service.update as jest.Mock).mockResolvedValue(updatedUser);
+
+      const result = await controller.update(mockReq, updateUserDto);
+
+      expect(result).toEqual(updatedUser);
+    });
+  });
+
+  describe('get', () => {
+    it('should return the user from the service', async () => {
+      const mockReq = { user: { id: 1 } };
+      const mockUser = {
+        id: 1,
+        email: 'test@example.com',
+        fullName: 'Test User',
+        profilePicture: null,
+      };
+
+      (service.findOne as jest.Mock).mockResolvedValue(mockUser);
+
+      const result = await controller.get(mockReq);
+
+      expect(service.findOne).toHaveBeenCalledWith(1);
+      expect(result).toEqual(mockUser);
+    });
+
+    it('should throw a NotFoundException if user is not found', async () => {
+      const mockReq = { user: { id: 2 } };
+
+      (service.findOne as jest.Mock).mockRejectedValue(
+        new NotFoundException('User not found'),
+      );
+
+      await expect(controller.get(mockReq)).rejects.toThrow(NotFoundException);
     });
   });
 });

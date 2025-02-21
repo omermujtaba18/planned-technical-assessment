@@ -129,4 +129,38 @@ describe('UsersService', () => {
       expect(result).toBeNull();
     });
   });
+
+  describe('findOne', () => {
+    it('should return a user when found', async () => {
+      const id = 1;
+
+      const mockUser = {
+        id: 1,
+        email: 'test@example.com',
+        password: 'password123',
+        fullName: 'Test User',
+        profilePicture: null,
+        update: jest.fn(), // Add this if update is required in other tests
+      };
+
+      (userModelMock.findOne as jest.Mock).mockResolvedValue(mockUser);
+
+      const result = await service.findOne(id);
+
+      expect(userModelMock.findOne).toHaveBeenCalledWith({ where: { id } });
+      expect(result).toEqual({ ...mockUser, password: undefined });
+    });
+
+    it('should throw a NotFoundException when no user is found', async () => {
+      const id = 2;
+
+      (userModelMock.findOne as jest.Mock).mockResolvedValue(null);
+
+      await expect(service.findOne(id)).rejects.toThrow(
+        new NotFoundException('User not found'),
+      );
+
+      expect(userModelMock.findOne).toHaveBeenCalledWith({ where: { id } });
+    });
+  });
 });

@@ -15,6 +15,18 @@ export class UsersService {
     return this.userModel.create(createUserDto);
   }
 
+  async findOne(id: number) {
+    const user = await this.userModel.findOne({ where: { id } });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    user.password = undefined;
+
+    return user;
+  }
+
   async update(id: number, updateUserDto: UpdateUserDto) {
     const user = await this.userModel.findOne({ where: { id } });
 

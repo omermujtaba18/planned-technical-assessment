@@ -1,4 +1,4 @@
-import { Controller, Body, Patch, Param } from '@nestjs/common';
+import { Controller, Body, Patch, Req, Get } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 
@@ -6,8 +6,13 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  @Get('/me')
+  get(@Req() req) {
+    return this.usersService.findOne(req.user.id);
+  }
+
+  @Patch('/me')
+  update(@Req() req, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.update(req.user.id, updateUserDto);
   }
 }
