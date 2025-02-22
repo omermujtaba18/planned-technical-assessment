@@ -13,6 +13,7 @@ import { UsersService } from './resources/users/users.service';
 import { MemoriesModule } from './resources/memories/memories.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { MemoriesMediaModule } from './resources/memories-media/memories-media.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { join } from 'path';
     AuthModule,
     UsersModule,
     MemoriesModule,
+    MemoriesMediaModule,
   ],
   controllers: [],
   providers: [

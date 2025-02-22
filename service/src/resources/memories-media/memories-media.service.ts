@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
 import { MemoriesMedia } from './models/memories-media.model';
-import { CreateMemoryMediaDto } from './dto/create-memory-media.dto';
+import { InjectModel } from '@nestjs/sequelize';
+import { CreateMemoriesMediaDto } from './dto/create-memories-media.dto';
 
 @Injectable()
 export class MemoriesMediaService {
@@ -10,7 +10,11 @@ export class MemoriesMediaService {
     private memoryMediaModel: typeof MemoriesMedia,
   ) {}
 
-  create(createMemoryMediaDto: CreateMemoryMediaDto[]) {
+  create(createMemoryMediaDto: CreateMemoriesMediaDto) {
+    return this.memoryMediaModel.create(createMemoryMediaDto);
+  }
+
+  createBulk(createMemoryMediaDto: CreateMemoriesMediaDto[]) {
     return this.memoryMediaModel.bulkCreate(createMemoryMediaDto);
   }
 }

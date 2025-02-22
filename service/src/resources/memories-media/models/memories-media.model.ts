@@ -9,7 +9,7 @@ import {
   ForeignKey,
   BelongsTo,
 } from 'sequelize-typescript';
-import { Memory } from './memories.model';
+import { Memory } from '../../memories/models/memories.model';
 
 @Table({
   tableName: 'memories_media',

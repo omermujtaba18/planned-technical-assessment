@@ -11,7 +11,7 @@ import {
   HasMany,
 } from 'sequelize-typescript';
 import { User } from '../../users/models/users.model';
-import { MemoriesMedia } from './memories-media.model';
+import { MemoriesMedia } from '../../memories-media/models/memories-media.model';
 
 @Table({
   tableName: 'memories',
