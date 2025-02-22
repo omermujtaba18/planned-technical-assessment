@@ -16,7 +16,7 @@ import { UpdateMemoryDto } from './dto/update-memory.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import * as path from 'path';
-import { MemoriesMediaService } from './memories-media.service';
+import { MemoriesMediaService } from '../memories-media/memories-media.service';
 
 @Controller('memories')
 export class MemoriesController {
@@ -68,7 +68,7 @@ export class MemoriesController {
     @Param('id') id: number,
     @UploadedFiles() files: Array<Express.Multer.File>,
   ) {
-    return this.memoriesMediaService.create(
+    return this.memoriesMediaService.createBulk(
       files.map((file) => ({
         memoryId: id,
         url: `http://localhost:5001/${file.path}`,
