@@ -19,12 +19,10 @@ export const loginAction = (
     .then(
       (data) => {
         actions.setSubmitting(false);
-        actions.resetForm();
         setCookie("token", data.data.access_token);
         redirect("/");
       },
       (error) => {
-        actions.resetForm();
         actions.setSubmitting(false);
         actions.setStatus(error.response.data);
       },
@@ -48,12 +46,10 @@ export const signupAction = (
     .then(
       (data) => {
         actions.setSubmitting(false);
-        actions.resetForm();
         setCookie("token", data.data.access_token);
         redirect("/");
       },
       (error) => {
-        actions.resetForm();
         actions.setSubmitting(false);
         actions.setStatus(error.response.data);
       },
