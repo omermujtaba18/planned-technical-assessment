@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse, faBell } from "@fortawesome/free-solid-svg-icons";
 
@@ -16,6 +16,8 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname } from "next/navigation";
 import { logoutAction } from "@/forms/actions/auth";
+import { getUserAction } from "@/forms/actions/user";
+import { useUserStore } from "@/store/userStore";
 
 interface HeaderProps {
   hideNav?: boolean;
@@ -23,6 +25,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ hideNav = false }) => {
   const pathname = usePathname();
+  const { user } = useUserStore();
 
   const navs = [
     { href: "/", label: "Home", icon: <FontAwesomeIcon icon={faHouse} /> },
@@ -37,6 +40,12 @@ const Header: React.FC<HeaderProps> = ({ hideNav = false }) => {
       icon: <i className="ph ph-bold ph-path text-xl"></i>,
     },
   ];
+
+  useEffect(() => {
+    if (!hideNav) {
+      getUserAction();
+    }
+  });
 
   return (
     <header
@@ -77,11 +86,17 @@ const Header: React.FC<HeaderProps> = ({ hideNav = false }) => {
                 <DropdownMenu>
                   <DropdownMenuTrigger className="flex items-center space-x-2">
                     <Avatar>
-                      <AvatarImage src="https://github.com/shadcn.png" />
-                      <AvatarFallback>CN</AvatarFallback>
+                      <AvatarImage src={user?.profilePicture} />
+                      <AvatarFallback>
+                        {user?.fullName
+                          .split(" ")
+                          .map((name) => name[0])
+                          .join("")
+                          .toUpperCase()}{" "}
+                      </AvatarFallback>
                     </Avatar>
                     <span className="text-gray-700 font-medium hidden md:block">
-                      John Doe
+                      {user?.fullName}
                     </span>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="start">
