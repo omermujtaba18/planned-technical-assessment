@@ -3,7 +3,7 @@ import { CreateMemoryDto } from './dto/create-memory.dto';
 import { UpdateMemoryDto } from './dto/update-memory.dto';
 import { Memory } from './models/memories.model';
 import { InjectModel } from '@nestjs/sequelize';
-import { MemoriesMedia } from './models/memories-media.model';
+import { MemoriesMedia } from '../memories-media/models/memories-media.model';
 
 @Injectable()
 export class MemoriesService {

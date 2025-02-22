@@ -1,20 +1,122 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MemoriesController } from './memories.controller';
 import { MemoriesService } from './memories.service';
+import { MemoriesMediaService } from '../memories-media/memories-media.service';
+import { CreateMemoryDto } from './dto/create-memory.dto';
+import { UpdateMemoryDto } from './dto/update-memory.dto';
+import { CreateMemoriesMediaDto } from '../memories-media/dto/create-memories-media.dto';
 
 describe('MemoriesController', () => {
   let controller: MemoriesController;
+  let memoriesService: MemoriesService;
+  let memoriesMediaService: MemoriesMediaService;
+
+  const mockMemoriesService = {
+    create: jest.fn(),
+    findAll: jest.fn(),
+    findOne: jest.fn(),
+    update: jest.fn(),
+    remove: jest.fn(),
+  };
+
+  const mockMemoriesMediaService = {
+    createBulk: jest.fn(),
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [MemoriesController],
-      providers: [MemoriesService],
+      providers: [
+        { provide: MemoriesService, useValue: mockMemoriesService },
+        { provide: MemoriesMediaService, useValue: mockMemoriesMediaService },
+      ],
     }).compile();
 
     controller = module.get<MemoriesController>(MemoriesController);
+    memoriesService = module.get<MemoriesService>(MemoriesService);
+    memoriesMediaService =
+      module.get<MemoriesMediaService>(MemoriesMediaService);
   });
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+
+  describe('create', () => {
+    it('should call service.create with correct parameters', async () => {
+      const req = { user: { id: 1 } };
+      const dto: CreateMemoryDto = {
+        title: 'Test Memory',
+        description: 'Test Description',
+        timestamp: new Date(),
+      };
+      mockMemoriesService.create.mockResolvedValue({ id: 1, ...dto });
+
+      const result = await controller.create(req, dto);
+      expect(memoriesService.create).toHaveBeenCalledWith(req.user.id, dto);
+      expect(result).toEqual({ id: 1, ...dto });
+    });
+  });
+
+  describe('findAll', () => {
+    it('should return an array of memories', async () => {
+      const mockMemories = [{ id: 1, title: 'Test Memory' }];
+      mockMemoriesService.findAll.mockResolvedValue(mockMemories);
+
+      const result = await controller.findAll();
+      expect(memoriesService.findAll).toHaveBeenCalled();
+      expect(result).toEqual(mockMemories);
+    });
+  });
+
+  describe('findOne', () => {
+    it('should return a memory', async () => {
+      const mockMemory = { id: 1, title: 'Test Memory' };
+      mockMemoriesService.findOne.mockResolvedValue(mockMemory);
+
+      const result = await controller.findOne('1');
+      expect(memoriesService.findOne).toHaveBeenCalledWith(1);
+      expect(result).toEqual(mockMemory);
+    });
+  });
+
+  describe('update', () => {
+    it('should update a memory and return it', async () => {
+      const dto: UpdateMemoryDto = { title: 'Updated Memory' };
+      const mockUpdatedMemory = { id: 1, ...dto };
+      mockMemoriesService.update.mockResolvedValue(mockUpdatedMemory);
+
+      const result = await controller.update('1', dto);
+      expect(memoriesService.update).toHaveBeenCalledWith(1, dto);
+      expect(result).toEqual(mockUpdatedMemory);
+    });
+  });
+
+  describe('remove', () => {
+    it('should call service.remove with correct ID', async () => {
+      mockMemoriesService.remove.mockResolvedValue({ deleted: true });
+
+      const result = await controller.remove('1');
+      expect(memoriesService.remove).toHaveBeenCalledWith(1);
+      expect(result).toEqual({ deleted: true });
+    });
+  });
+
+  describe('createMedia', () => {
+    it('should call service.createBulk with correct parameters', async () => {
+      const files = [
+        { path: 'uploads/file1.jpg' },
+        { path: 'uploads/file2.jpg' },
+      ] as any;
+      const mockDto: CreateMemoriesMediaDto[] = [
+        { memoryId: 1, url: 'http://localhost:5001/uploads/file1.jpg' },
+        { memoryId: 1, url: 'http://localhost:5001/uploads/file2.jpg' },
+      ];
+      mockMemoriesMediaService.createBulk.mockResolvedValue(mockDto);
+
+      const result = await controller.createMedia(1, files);
+      expect(memoriesMediaService.createBulk).toHaveBeenCalledWith(mockDto);
+      expect(result).toEqual(mockDto);
+    });
   });
 });
