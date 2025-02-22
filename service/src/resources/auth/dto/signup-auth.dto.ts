@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class SignupAuthDto {
   @IsString()
@@ -9,5 +9,6 @@ export class SignupAuthDto {
 
   @IsNotEmpty()
   @IsString()
+  @MinLength(10, { message: 'Password must be at least 10 characters long' })
   password: string;
 }
