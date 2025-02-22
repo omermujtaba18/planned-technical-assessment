@@ -24,7 +24,7 @@ export const patchUserAction = (data: PatchUserAction, actions) => {
   const formData = new FormData();
   formData.append("fullName", data.fullName);
 
-  if (data.profilePicture) {
+  if (data.profilePicture && data.profilePicture.startsWith("data:image")) {
     const file = base64ToFile(data.profilePicture, "profile.jpg");
     formData.append("profilePicture", file);
   }
