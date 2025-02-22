@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { ABeeZee } from "next/font/google";
 import "./globals.css";
 
-const aBeeZee = ABeeZee({ weight: "400", subsets: ["latin"] });
+const aBeeZee = ABeeZee({
+  weight: ["400"],
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
