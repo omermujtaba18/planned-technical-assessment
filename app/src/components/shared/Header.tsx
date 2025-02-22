@@ -42,7 +42,7 @@ const Header: React.FC<HeaderProps> = ({ hideNav = false }) => {
   ];
 
   useEffect(() => {
-    if (!hideNav) {
+    if (!hideNav && !user) {
       getUserAction();
     }
   });
