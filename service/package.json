@@ -90,6 +90,13 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
+    "coveragePathIgnorePatterns": [
+      "\\.module\\.ts",
+      "\\.dto\\.ts",
+      "\\.model\\.ts",
+      "<rootDir>/main.ts",
+      "<rootDir>/config/configuration.ts"
+    ],
     "testEnvironment": "node"
   }
 }
