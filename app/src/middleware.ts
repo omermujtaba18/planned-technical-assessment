@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const authRoutes = ["/login", "/register"];
+const authRoutes = ["/login", "/signup"];
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("token");
