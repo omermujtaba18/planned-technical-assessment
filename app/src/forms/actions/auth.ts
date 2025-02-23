@@ -19,7 +19,7 @@ export const loginAction = (
     .then(
       (data) => {
         actions.setSubmitting(false);
-        setCookie("token", data.data.access_token);
+        setCookie("token", data.data.access_token, { maxAge: 86400 });
         redirect("/");
       },
       (error) => {
@@ -46,7 +46,7 @@ export const signupAction = (
     .then(
       (data) => {
         actions.setSubmitting(false);
-        setCookie("token", data.data.access_token);
+        setCookie("token", data.data.access_token, { maxAge: 86400 });
         redirect("/");
       },
       (error) => {
