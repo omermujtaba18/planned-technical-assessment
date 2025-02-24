@@ -11,7 +11,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       title: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(50),
         allowNull: false,
       },
       timestamp: {
@@ -19,7 +19,8 @@ module.exports = {
         allowNull: false,
       },
       description: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(500),
+        allowNull: false,
       },
       userId: {
         type: Sequelize.INTEGER,
