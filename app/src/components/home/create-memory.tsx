@@ -13,10 +13,18 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import Link from "next/link";
+import { useMemo } from "react";
+import { IUser } from "@/interfaces/user";
 
-const CreateMemory: React.FC = () => {
+interface CreateMemoryProps {
+  user?: IUser;
+}
+
+const CreateMemory: React.FC<CreateMemoryProps> = ({ user: propUser }) => {
   const { setUI } = useUIStore();
-  const { user } = useUserStore();
+  const storeUser = useUserStore((state) => state.user);
+
+  const user = useMemo(() => propUser || storeUser, [propUser, storeUser]);
 
   if (!user) return null;
 
@@ -26,37 +34,44 @@ const CreateMemory: React.FC = () => {
         <CardContent className="flex flex-col gap-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-4">
-              <UserAvatar />
+              <UserAvatar user={propUser ? propUser : undefined} />
               <h1 className="text-xl font-medium">{`${user.fullName.split(" ")[0]}'s Memory Lane`}</h1>
             </div>
-            <DropdownMenu>
-              <DropdownMenuTrigger className="h-fit">
-                <Ellipsis className="justify-self-end" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem>
-                  <Link href="/settings">Settings</Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            {/* <Ellipsis /> */}
+            {!propUser && (
+              <DropdownMenu>
+                <DropdownMenuTrigger className="h-fit">
+                  <Ellipsis className="justify-self-end" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem>
+                    <Link href="/settings">Settings</Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </div>
           <p className="text-sm text-gray-500 mb-4">
             {user.memoryLaneDescription}
           </p>
-          <div className="flex items-start justify-around md:justify-between space-x-4">
-            <Button variant="secondary" size="xl">
-              <Share2 />
-              Share
-            </Button>
-            <Button
-              variant="gradient"
-              size="xl"
-              onClick={() => setUI({ memoryDialog: { state: true } })}
-            >
-              Create Memory
-            </Button>
-          </div>
+          {!propUser && (
+            <div className="flex items-start justify-around md:justify-between space-x-4">
+              <Button
+                variant="secondary"
+                size="xl"
+                onClick={() => setUI({ shareDialog: { state: true } })}
+              >
+                <Share2 />
+                Share
+              </Button>
+              <Button
+                variant="gradient"
+                size="xl"
+                onClick={() => setUI({ memoryDialog: { state: true } })}
+              >
+                Create Memory
+              </Button>
+            </div>
+          )}
         </CardContent>
       </Card>
     </section>

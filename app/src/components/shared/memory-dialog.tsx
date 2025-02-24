@@ -28,7 +28,7 @@ export const MemoryDialog = () => {
 
   return (
     <Dialog
-      open={ui.memoryDialog.state}
+      open={ui?.memoryDialog?.state}
       onOpenChange={(open) => setUI({ memoryDialog: { state: open } })}
     >
       <DialogContent>

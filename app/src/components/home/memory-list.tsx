@@ -1,13 +1,32 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useMemoryStore } from "@/store/memoryStore";
 import Memory from "../shared/memory";
 import { Button } from "../ui/button";
 import { getMemoriesAction } from "@/forms/actions/memory";
 import { IMemory } from "@/interfaces/memory";
 import MonthSeparator from "./month-separator";
+import { Paging } from "@/interfaces/paging";
 
-const MemoryList: React.FC = () => {
-  const { memories, paging } = useMemoryStore();
+interface MemoryListProps {
+  memories?: IMemory[];
+  paging?: Paging;
+}
+
+const MemoryList: React.FC<MemoryListProps> = ({
+  memories: propMemories,
+  paging: propPaging,
+}) => {
+  const storeMemories = useMemoryStore((state) => state.memories);
+  const storePaging = useMemoryStore((state) => state.paging);
+
+  const memories = useMemo(
+    () => propMemories || storeMemories,
+    [propMemories, storeMemories],
+  );
+  const paging = useMemo(
+    () => propPaging || storePaging,
+    [propPaging, storePaging],
+  );
 
   function groupMemoriesByMonth(
     memories: IMemory[],
