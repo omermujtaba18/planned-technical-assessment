@@ -49,6 +49,12 @@ export class User extends Model<User> {
   })
   profilePicture: string;
 
+  @AllowNull(true)
+  @Column({
+    type: DataType.STRING,
+  })
+  memoryLaneDescription: string;
+
   @HasMany(() => Memory)
   memories: Memory[];
 }

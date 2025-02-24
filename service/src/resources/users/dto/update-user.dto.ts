@@ -11,4 +11,9 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsString()
   @IsOptional()
   profilePicture?: string;
+
+  @IsString()
+  @Length(1)
+  @IsOptional()
+  memoryLaneDescription?: string;
 }
