@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ShareService } from './share.service';
-import { SkipJwtauth } from 'src/common/decorators/skip-jwt-auth/skip-jwt-auth.decorator';
+import { SkipJwtauth } from '../../common/decorators/skip-jwt-auth/skip-jwt-auth.decorator';
 
 @Controller('share')
 export class ShareController {
