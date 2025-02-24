@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import React, { useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faBell } from "@fortawesome/free-solid-svg-icons";
 
 import {
   DropdownMenu,
@@ -18,6 +16,7 @@ import { usePathname } from "next/navigation";
 import { logoutAction } from "@/forms/actions/auth";
 import { getUserAction } from "@/forms/actions/user";
 import { useUserStore } from "@/store/userStore";
+import { Brain, House, Route } from "lucide-react";
 
 interface HeaderProps {
   hideNav?: boolean;
@@ -28,16 +27,16 @@ const Header: React.FC<HeaderProps> = ({ hideNav = false }) => {
   const { user } = useUserStore();
 
   const navs = [
-    { href: "/", label: "Home", icon: <FontAwesomeIcon icon={faHouse} /> },
+    { href: "/", label: "Home", icon: <House /> },
     {
       href: "/memories",
       label: "Memories",
-      icon: <i className="ph ph-bold ph-brain text-xl"></i>,
+      icon: <Brain />,
     },
     {
       href: "/lanes",
       label: "Lanes",
-      icon: <i className="ph ph-bold ph-path text-xl"></i>,
+      icon: <Route />,
     },
   ];
 
@@ -77,12 +76,6 @@ const Header: React.FC<HeaderProps> = ({ hideNav = false }) => {
                 ))}
               </nav>
               <div className="flex items-center space-x-6">
-                <button className="relative text-gray-700 hover:text-indigo-600">
-                  <FontAwesomeIcon icon={faBell} className="text-xl" />
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
-                    3
-                  </span>
-                </button>
                 <DropdownMenu>
                   <DropdownMenuTrigger className="flex items-center space-x-2">
                     <Avatar>

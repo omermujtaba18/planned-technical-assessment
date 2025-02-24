@@ -2,12 +2,10 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage, faVideo } from "@fortawesome/free-solid-svg-icons";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useUIStore } from "@/store/uiStore";
+import { Image as ImageLucide, Route, Video } from "lucide-react";
 
 const CreateMemory: React.FC = () => {
   const { setUI } = useUIStore();
@@ -32,29 +30,21 @@ const CreateMemory: React.FC = () => {
                 variant="ghost"
                 onClick={() => setUI({ memoryDialog: true })}
               >
-                <FontAwesomeIcon
-                  icon={faImage}
-                  className="text-xl text-green-600"
-                />
-
+                <ImageLucide className="text-xl text-green-600" />
                 <span>Photo</span>
               </Button>
               <Button
                 variant="ghost"
                 onClick={() => setUI({ memoryDialog: true })}
               >
-                <FontAwesomeIcon
-                  icon={faVideo}
-                  className="text-xl text-red-600"
-                />
+                <Video className="text-xl text-red-600" />
                 <span>Video</span>
               </Button>
               <Button
                 variant="ghost"
                 onClick={() => setUI({ memoryDialog: true })}
               >
-                <i className="ph ph-bold ph-path text-xl"></i>
-                <span>Lane</span>
+                <Route /> <span>Lane</span>
               </Button>
             </div>
             <Button
