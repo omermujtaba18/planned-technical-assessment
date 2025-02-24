@@ -41,13 +41,19 @@ export class MemoriesService {
     }
   }
 
-  async findAll(page: number = 1, limit: number = 10, order = 'DESC') {
+  async findAll(
+    userId: number,
+    page: number = 1,
+    limit: number = 10,
+    order = 'DESC',
+  ) {
     const offset = (page - 1) * limit;
 
     const { rows, count } = await this.memoryModel.findAndCountAll({
       limit,
       offset,
       order: [['timestamp', order]],
+      where: { userId },
       include: [{ model: MemoriesMedia }],
     });
 

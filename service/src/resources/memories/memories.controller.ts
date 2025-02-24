@@ -49,6 +49,7 @@ export class MemoriesController {
 
   @Get()
   findAll(
+    @Req() req,
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 10,
     @Query('order') order: string,
@@ -57,7 +58,7 @@ export class MemoriesController {
     limit = Number(limit) || 10;
     order = order || 'DESC';
 
-    return this.memoriesService.findAll(page, limit, order);
+    return this.memoriesService.findAll(req.user.id, page, limit, order);
   }
 
   @Get(':id')
