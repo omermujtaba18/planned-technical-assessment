@@ -50,3 +50,16 @@ export const createMemoryAction = (
       },
     );
 };
+
+export const deleteMemoryAction = (id: string) => {
+  api()
+    .delete(`/memories/${id}`)
+    .then(
+      () => {
+        useMemoryStore.getState().deleteMemory(id);
+      },
+      (error) => {
+        console.log(error);
+      },
+    );
+};

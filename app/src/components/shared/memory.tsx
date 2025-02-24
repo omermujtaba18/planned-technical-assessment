@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { IMemory } from "@/interfaces/memory";
+import { deleteMemoryAction } from "@/forms/actions/memory";
 
 interface MemoryProps {
   memory: IMemory;
@@ -73,7 +74,9 @@ const Memory: React.FC<MemoryProps> = ({ memory }) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem>Edit</DropdownMenuItem>
-              <DropdownMenuItem>Delete</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => deleteMemoryAction(memory.id)}>
+                Delete
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
