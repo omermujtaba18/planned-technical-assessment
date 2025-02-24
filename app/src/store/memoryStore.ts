@@ -1,11 +1,6 @@
 import { IMemory } from "@/interfaces/memory";
+import { Paging } from "@/interfaces/paging";
 import { create } from "zustand";
-
-interface Paging {
-  totalItems: number;
-  totalPages: number;
-  currentPage: number;
-}
 
 interface MemoryStore {
   memories: IMemory[];
