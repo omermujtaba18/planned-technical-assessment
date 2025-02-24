@@ -59,10 +59,16 @@ export class MemoriesService {
     };
   }
 
-  findOne(id: number) {
-    return this.memoryModel.findByPk(id, {
+  async findOne(id: number) {
+    const memory = await this.memoryModel.findByPk(id, {
       include: [{ model: MemoriesMedia }],
     });
+
+    if (!memory) {
+      throw new NotFoundException(`Memory with ID ${id} not found`);
+    }
+
+    return memory;
   }
 
   remove(id: number) {

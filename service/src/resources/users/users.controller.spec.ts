@@ -36,6 +36,7 @@ describe('UsersController', () => {
     it('should call the service update method with correct parameters', async () => {
       const updateUserDto: UpdateUserDto = { fullName: 'Updated Name' };
       const mockReq = { user: { id: 1 } };
+      const mockFile = undefined;
 
       (service.update as jest.Mock).mockResolvedValue({
         id: 1,
@@ -44,7 +45,7 @@ describe('UsersController', () => {
         profilePicture: null,
       });
 
-      await controller.update(mockReq, updateUserDto);
+      await controller.update(mockReq, mockFile, updateUserDto);
 
       expect(service.update).toHaveBeenCalledWith(1, updateUserDto);
     });
@@ -52,19 +53,21 @@ describe('UsersController', () => {
     it('should throw a NotFoundException if user is not found', async () => {
       const updateUserDto: UpdateUserDto = { fullName: 'Updated Name' };
       const mockReq = { user: { id: 2 } };
+      const mockFile = undefined;
 
       (service.update as jest.Mock).mockRejectedValue(
         new NotFoundException('User not found'),
       );
 
-      await expect(controller.update(mockReq, updateUserDto)).rejects.toThrow(
-        NotFoundException,
-      );
+      await expect(
+        controller.update(mockReq, mockFile, updateUserDto),
+      ).rejects.toThrow(NotFoundException);
     });
 
     it('should return the updated user', async () => {
       const updateUserDto: UpdateUserDto = { fullName: 'Updated Name' };
       const mockReq = { user: { id: 1 } };
+      const mockFile = undefined;
 
       const updatedUser = {
         id: 1,
@@ -75,7 +78,7 @@ describe('UsersController', () => {
 
       (service.update as jest.Mock).mockResolvedValue(updatedUser);
 
-      const result = await controller.update(mockReq, updateUserDto);
+      const result = await controller.update(mockReq, mockFile, updateUserDto);
 
       expect(result).toEqual(updatedUser);
     });
