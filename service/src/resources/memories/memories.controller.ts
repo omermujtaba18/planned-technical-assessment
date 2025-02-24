@@ -9,6 +9,7 @@ import {
   UploadedFiles,
   Req,
   BadRequestException,
+  Query,
 } from '@nestjs/common';
 import { MemoriesService } from './memories.service';
 import { CreateMemoryDto } from './dto/create-memory.dto';
@@ -47,8 +48,16 @@ export class MemoriesController {
   }
 
   @Get()
-  findAll() {
-    return this.memoriesService.findAll();
+  findAll(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+    @Query('order') order: string,
+  ) {
+    page = Number(page) || 1;
+    limit = Number(limit) || 10;
+    order = order || 'DESC';
+
+    return this.memoriesService.findAll(page, limit, order);
   }
 
   @Get(':id')

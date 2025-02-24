@@ -41,8 +41,22 @@ export class MemoriesService {
     }
   }
 
-  findAll() {
-    return this.memoryModel.findAll({ include: [{ model: MemoriesMedia }] });
+  async findAll(page: number = 1, limit: number = 10, order = 'DESC') {
+    const offset = (page - 1) * limit;
+
+    const { rows, count } = await this.memoryModel.findAndCountAll({
+      limit,
+      offset,
+      order: [['timestamp', order]],
+      include: [{ model: MemoriesMedia }],
+    });
+
+    return {
+      data: rows,
+      totalItems: count,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+    };
   }
 
   findOne(id: number) {
