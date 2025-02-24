@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { patchUserAction } from "@/forms/actions/user";
+import { Textarea } from "../ui/textarea";
 
 export const ProfileSettingCard: React.FC = () => {
   const { user } = useUserStore();
@@ -103,6 +104,22 @@ export const ProfileSettingCard: React.FC = () => {
                   />
                   <p className="text-red-600 text-sm">
                     {errors.fullName && touched.fullName && errors.fullName}
+                  </p>
+                </div>
+                <div className="gap-2 max-w-sm flex flex-col">
+                  <Label htmlFor="fullName">Memory Lane Description</Label>
+                  <Textarea
+                    id="memoryLaneDescription"
+                    placeholder="Enter your memory lane description"
+                    rows={5}
+                    maxLength={200}
+                    onChange={handleChange}
+                    defaultValue={values.memoryLaneDescription}
+                  />
+                  <p className="text-red-600 text-sm">
+                    {errors.memoryLaneDescription &&
+                      touched.memoryLaneDescription &&
+                      errors.memoryLaneDescription}
                   </p>
                 </div>
                 <ServerError status={status} />
