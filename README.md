@@ -14,6 +14,8 @@ The backend application is built using NestJS and is located in the `service/` d
 ### Key Files and Directories
 
 - `src/`: Contains the source code for the backend application.
+  - `common/`: Contains common decorators and filters
+  - `configuration/`: Contains app configurations
   - `resources/`: Contains the resource modules such as `users` and `memories`.
     - `users/`: Manages user-related operations.
       - `users.controller.ts`: Handles HTTP requests for user operations.
@@ -24,9 +26,17 @@ The backend application is built using NestJS and is located in the `service/` d
     - `memories-media/`: Manages memory-media-related operations.
       - `memories-media.controller.ts`: Handles HTTP requests for memory media operations.
       - `memories-media.service.ts`: Contains the business logic for memory media operations.
+    - `share/`: Manages share-related operations.
+      - `share.controller.ts`: Handles HTTP requests for share operations.
+      - `share.service.ts`: Contains the business logic for share operations.
 - `docker-compose.yaml`: Configuration file for Docker Compose to set up the development environment.
 - `package.json`: Lists the dependencies and scripts for the backend application.
 - `migrations`: Contains migration files for models
+
+### Limitations
+
+1. The authentication functionality is very limited. Very basic login and sign up without any security considerations.
+2. Files are getting stored on disk storage for ease. In a production environment I would store them on a distributed cloud storage like S3 or similar.
 
 ### Running the backend application
 
@@ -59,6 +69,12 @@ The frontend application is built using Next.js and is located in the `app/` dir
 ### Key Files and Directories
 
 - `src/`: Contains the source code for the frontend application.
+    - `app/`: Contains Next app routes, layouts and pages.
+    - `components/`: Contains reusable components
+    - `forms/`: Contains form schemas, and actions.
+    - `interfaces/`: Contains common interfaces like IUser, IMemory and IMemoryMedia
+    - `lib/`: Contains reusable libraries.
+    - `store/`: Contain zustand stores for user and memory managment.
 - `next.config.ts`: Configuration file for Next.js.
 - `tailwind.config.ts`: Configuration file for Tailwind CSS.
 - `package.json`: Lists the dependencies and scripts for the frontend application.
@@ -78,3 +94,10 @@ The frontend application is built using Next.js and is located in the `app/` dir
         npm run dev
 
 4.  Your server should be running at [http://localhost:3000](http://localhost:3000)
+
+## Recording
+
+https://github.com/user-attachments/assets/2247444a-78ab-43cc-a7f3-0f78f9c924e3
+
+
+
