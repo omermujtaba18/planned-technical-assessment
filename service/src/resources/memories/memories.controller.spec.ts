@@ -66,8 +66,13 @@ describe('MemoriesController', () => {
       const mockMemories = [{ id: 1, title: 'Test Memory' }];
       mockMemoriesService.findAll.mockResolvedValue(mockMemories);
 
-      const result = await controller.findAll(1, 10, 'DESC');
-      expect(memoriesService.findAll).toHaveBeenCalledWith(1, 10, 'DESC');
+      const result = await controller.findAll(
+        { user: { id: 1 } },
+        1,
+        10,
+        'DESC',
+      );
+      expect(memoriesService.findAll).toHaveBeenCalledWith(1, 1, 10, 'DESC');
       expect(result).toEqual(mockMemories);
     });
   });
