@@ -1,24 +1,25 @@
+import { IMemory } from "@/interfaces/memory";
 import { create } from "zustand";
-
-interface IMemoryMedia {
-  id: string;
-  url: string;
-}
-
-interface IMemory {
-  id: string;
-  title: string;
-  timestamp: Date;
-  description: string;
-  media: IMemoryMedia[];
-}
 
 interface MemoryStore {
   memories: IMemory[];
   setMemories: (memories: IMemory[]) => void;
+  createMemory: (memory: IMemory) => void;
+  deleteMemory: (id: string) => void;
+  editMemory: (memory: IMemory) => void;
 }
 
 export const useMemoryStore = create<MemoryStore>((set) => ({
   memories: [],
   setMemories: (memories) => set({ memories }),
+  createMemory: (memory) =>
+    set((state) => ({ memories: [...state.memories, memory] })),
+  deleteMemory: (id) =>
+    set((state) => ({
+      memories: state.memories.filter((memory) => memory.id !== id),
+    })),
+  editMemory: (memory) =>
+    set((state) => ({
+      memories: state.memories.map((m) => (m.id === memory.id ? memory : m)),
+    })),
 }));
