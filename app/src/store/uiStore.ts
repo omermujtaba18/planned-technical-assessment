@@ -1,7 +1,8 @@
+import { IMemory } from "@/interfaces/memory";
 import { create } from "zustand";
 
 interface UI {
-  memoryDialog: boolean;
+  memoryDialog: { state: boolean; data?: IMemory };
 }
 
 interface UserStore {

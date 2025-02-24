@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: "storage.googleapis.com",
         port: "",
       },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "5001",
+      },
     ],
   },
   /* config options here */

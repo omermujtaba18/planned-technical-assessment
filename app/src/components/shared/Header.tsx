@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import React, { useEffect } from "react";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,12 +10,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname } from "next/navigation";
 import { logoutAction } from "@/forms/actions/auth";
 import { getUserAction } from "@/forms/actions/user";
 import { useUserStore } from "@/store/userStore";
+import { getMemoriesAction } from "@/forms/actions/memory";
 import { Brain, House, Route } from "lucide-react";
+import { useMemoryStore } from "@/store/memoryStore";
+import { UserAvatar } from "./user-avatar";
 
 interface HeaderProps {
   hideNav?: boolean;
@@ -25,26 +26,30 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ hideNav = false }) => {
   const pathname = usePathname();
   const { user } = useUserStore();
+  const { memories } = useMemoryStore();
 
   const navs = [
-    { href: "/", label: "Home", icon: <House /> },
+    { href: "/", label: "Home", icon: <House />, disabled: false },
     {
       href: "/memories",
       label: "Memories",
       icon: <Brain />,
+      disabled: memories.length === 0,
     },
     {
       href: "/lanes",
       label: "Lanes",
       icon: <Route />,
+      disabled: memories.length === 0,
     },
   ];
 
   useEffect(() => {
     if (!hideNav && !user) {
       getUserAction();
+      getMemoriesAction();
     }
-  });
+  }, []);
 
   return (
     <header
@@ -67,7 +72,7 @@ const Header: React.FC<HeaderProps> = ({ hideNav = false }) => {
                         ? "bg-purple-100 rounded-lg text-indigo-600 font-semibold"
                         : ""
                     }`}
-                    href={nav.href}
+                    href={nav.disabled ? "/" : nav.href}
                     key={`nav-${index}`}
                   >
                     {nav.icon}
@@ -78,17 +83,8 @@ const Header: React.FC<HeaderProps> = ({ hideNav = false }) => {
               <div className="flex items-center space-x-6">
                 <DropdownMenu>
                   <DropdownMenuTrigger className="flex items-center space-x-2">
-                    <Avatar>
-                      <AvatarImage src={user?.profilePicture} />
-                      <AvatarFallback>
-                        {user?.fullName
-                          .split(" ")
-                          .map((name) => name[0])
-                          .join("")
-                          .toUpperCase()}{" "}
-                      </AvatarFallback>
-                    </Avatar>
-                    <span className="text-gray-700 font-medium hidden md:block">
+                    <UserAvatar />
+                    <span className="text-gray-700 font-medium hidden md:block min-w-28">
                       {user?.fullName}
                     </span>
                   </DropdownMenuTrigger>

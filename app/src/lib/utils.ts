@@ -20,3 +20,9 @@ export const base64ToFile = (
   const byteArray = new Uint8Array(byteArrays);
   return new File([byteArray], fileName, { type: mimeType });
 };
+
+export const getLocalDatetime = () => {
+  const now = new Date();
+  const offset = now.getTimezoneOffset() * 60000;
+  return new Date(now.getTime() - offset).toISOString().slice(0, 16);
+};
