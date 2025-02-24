@@ -3,6 +3,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from './models/users.model';
+import { Memory } from '../memories/models/memories.model';
+import { MemoriesMedia } from '../memories-media/models/memories-media.model';
 
 @Injectable()
 export class UsersService {
@@ -42,5 +44,18 @@ export class UsersService {
 
   findOneByEmail(email: string) {
     return this.userModel.findOne({ where: { email } });
+  }
+
+  findOneWithMemories(id: number) {
+    const user = this.userModel.findOne({
+      where: { id },
+      include: [{ model: Memory, include: [{ model: MemoriesMedia }] }],
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
   }
 }

@@ -14,6 +14,7 @@ import { MemoriesModule } from './resources/memories/memories.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { MemoriesMediaModule } from './resources/memories-media/memories-media.module';
+import { ShareModule } from './resources/share/share.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { MemoriesMediaModule } from './resources/memories-media/memories-media.m
     UsersModule,
     MemoriesModule,
     MemoriesMediaModule,
+    ShareModule,
   ],
   controllers: [],
   providers: [
