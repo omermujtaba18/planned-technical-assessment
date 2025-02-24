@@ -15,8 +15,7 @@ import { logoutAction } from "@/forms/actions/auth";
 import { getUserAction } from "@/forms/actions/user";
 import { useUserStore } from "@/store/userStore";
 import { getMemoriesAction } from "@/forms/actions/memory";
-import { Brain, House, Route } from "lucide-react";
-import { useMemoryStore } from "@/store/memoryStore";
+import { House } from "lucide-react";
 import { UserAvatar } from "./user-avatar";
 
 interface HeaderProps {
@@ -26,23 +25,8 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ hideNav = false }) => {
   const pathname = usePathname();
   const { user } = useUserStore();
-  const { memories } = useMemoryStore();
 
-  const navs = [
-    { href: "/", label: "Home", icon: <House />, disabled: false },
-    {
-      href: "/memories",
-      label: "Memories",
-      icon: <Brain />,
-      disabled: memories.length === 0,
-    },
-    {
-      href: "/lanes",
-      label: "Lanes",
-      icon: <Route />,
-      disabled: memories.length === 0,
-    },
-  ];
+  const navs = [{ href: "/", label: "Home", icon: <House />, disabled: false }];
 
   useEffect(() => {
     if (!hideNav && !user) {
