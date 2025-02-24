@@ -10,6 +10,9 @@ import { MemoriesMediaService } from '../memories-media/memories-media.service';
   imports: [SequelizeModule.forFeature([Memory, MemoriesMedia])],
   controllers: [MemoriesController],
   providers: [MemoriesService, MemoriesMediaService],
-  exports: [MemoriesService, SequelizeModule.forFeature([Memory])],
+  exports: [
+    MemoriesService,
+    SequelizeModule.forFeature([Memory, MemoriesMedia]),
+  ],
 })
 export class MemoriesModule {}
