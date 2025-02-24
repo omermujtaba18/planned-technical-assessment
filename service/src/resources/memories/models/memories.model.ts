@@ -25,7 +25,7 @@ export class Memory extends Model<Memory> {
 
   @AllowNull(false)
   @Column({
-    type: DataType.STRING,
+    type: DataType.STRING(50),
   })
   title: string;
 
@@ -35,9 +35,9 @@ export class Memory extends Model<Memory> {
   })
   timestamp: Date;
 
-  @AllowNull(true)
+  @AllowNull(false)
   @Column({
-    type: DataType.STRING,
+    type: DataType.STRING(500),
   })
   description: string;
 

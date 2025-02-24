@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMemoryDto } from './dto/create-memory.dto';
 import { UpdateMemoryDto } from './dto/update-memory.dto';
 import { Memory } from './models/memories.model';
@@ -8,12 +8,37 @@ import { MemoriesMedia } from '../memories-media/models/memories-media.model';
 @Injectable()
 export class MemoriesService {
   constructor(
-    @InjectModel(Memory)
-    private memoryModel: typeof Memory,
+    @InjectModel(Memory) private memoryModel: typeof Memory,
+    @InjectModel(MemoriesMedia) private memoryMediaModel: typeof MemoriesMedia,
   ) {}
 
-  create(userId: number, createMemoryDto: CreateMemoryDto) {
-    return this.memoryModel.create({ userId, ...createMemoryDto });
+  async create(
+    userId: number,
+    createMemoryDto: Omit<CreateMemoryDto, 'media'>,
+    files: Array<Express.Multer.File>,
+  ) {
+    const transaction = await this.memoryModel.sequelize.transaction();
+
+    try {
+      const memory = await this.memoryModel.create(
+        { userId, ...createMemoryDto },
+        { transaction },
+      );
+
+      const media = await this.memoryMediaModel.bulkCreate(
+        files.map((file) => ({
+          memoryId: memory.id,
+          url: `http://localhost:5001/${file.path}`,
+        })),
+        { transaction },
+      );
+
+      await transaction.commit();
+      return { ...memory.toJSON(), media };
+    } catch (error) {
+      await transaction.rollback();
+      throw error;
+    }
   }
 
   findAll() {
@@ -24,10 +49,6 @@ export class MemoriesService {
     return this.memoryModel.findByPk(id, {
       include: [{ model: MemoriesMedia }],
     });
-  }
-
-  update(id: number, updateMemoryDto: UpdateMemoryDto) {
-    return this.memoryModel.update(updateMemoryDto, { where: { id } });
   }
 
   remove(id: number) {
