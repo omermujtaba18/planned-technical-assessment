@@ -3,12 +3,19 @@ import { useMemoryStore } from "@/store/memoryStore";
 import { useUIStore } from "@/store/uiStore";
 import { FormikHelpers } from "formik";
 
-export const getMemoriesAction = () => {
+export const getMemoriesAction = async (
+  page: number = 1,
+  limit: number = 2,
+) => {
   api()
-    .get("/memories")
+    .get(`/memories?page=${page}&limit=${limit}`)
     .then(
-      (data) => {
-        useMemoryStore.getState().setMemories(data.data);
+      (response) => {
+        const { data, totalItems, totalPages, currentPage } = response.data;
+        useMemoryStore.getState().addMemories(data);
+        useMemoryStore
+          .getState()
+          .setPaging({ totalItems, totalPages, currentPage });
       },
       (error) => {
         console.log(error);
