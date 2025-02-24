@@ -4,6 +4,7 @@ import { getModelToken } from '@nestjs/sequelize';
 import { Memory } from './models/memories.model';
 import { MemoriesMedia } from '../memories-media/models/memories-media.model';
 import { NotFoundException } from '@nestjs/common';
+import { where } from 'sequelize';
 
 describe('MemoriesService', () => {
   let service: MemoriesService;
@@ -127,12 +128,13 @@ describe('MemoriesService', () => {
         count,
       });
 
-      const result = await service.findAll(1, 10, 'DESC');
+      const result = await service.findAll(1, 1, 10, 'DESC');
 
       expect(memoryModel.findAndCountAll).toHaveBeenCalledWith({
         limit: 10,
         offset: 0,
         order: [['timestamp', 'DESC']],
+        where: { userId: 1 },
         include: [{ model: MemoriesMedia }],
       });
 
