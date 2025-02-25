@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import moment from "moment-timezone";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -25,4 +26,8 @@ export const getLocalDatetime = () => {
   const now = new Date();
   const offset = now.getTimezoneOffset() * 60000;
   return new Date(now.getTime() - offset).toISOString().slice(0, 16);
+};
+
+export const getLocateYear = (date: string) => {
+  return moment.tz(date, moment.tz.guess()).format("MMMM YYYY");
 };

@@ -7,6 +7,7 @@ import { IMemory } from "@/interfaces/memory";
 import MonthSeparator from "./month-separator";
 import { IPaging } from "@/interfaces/paging";
 import { getShareMemoriesAction } from "@/forms/actions/share";
+import { getLocateYear } from "@/lib/utils";
 
 interface MemoryListProps {
   memories?: IMemory[];
@@ -51,12 +52,7 @@ const MemoryList: React.FC<MemoryListProps> = ({
         {Object.entries(groupMemoriesByMonth(memories)).map(
           ([month, memories]) => (
             <div key={month} className="flex flex-col gap-4">
-              <MonthSeparator
-                year={`${new Date(`${month}-01`).toLocaleDateString("en-CA", {
-                  month: "long",
-                  year: "numeric",
-                })}`}
-              />
+              <MonthSeparator year={`${getLocateYear(month)}`} />
               <div className="flex flex-row flex-wrap gap-4">
                 {memories.map((memory, index) => (
                   <Memory key={`memory-${index}`} memory={memory} />
