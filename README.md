@@ -69,12 +69,13 @@ The frontend application is built using Next.js and is located in the `app/` dir
 ### Key Files and Directories
 
 - `src/`: Contains the source code for the frontend application.
-    - `app/`: Contains Next app routes, layouts and pages.
-    - `components/`: Contains reusable components
-    - `forms/`: Contains form schemas, and actions.
-    - `interfaces/`: Contains common interfaces like IUser, IMemory and IMemoryMedia
-    - `lib/`: Contains reusable libraries.
-    - `store/`: Contain zustand stores for user and memory managment.
+  - `app/`: Contains Next app routes, layouts and pages.
+  - `components/`: Contains reusable components
+  - `forms/`: Contains form schemas, and actions.
+  - `interfaces/`: Contains common interfaces like IUser, IMemory and IMemoryMedia
+  - `lib/`: Contains reusable libraries.
+  - `store/`: Contain zustand stores for user and memory managment.
+- `cypress`: Contains E2E tests and fixtures
 - `next.config.ts`: Configuration file for Next.js.
 - `tailwind.config.ts`: Configuration file for Tailwind CSS.
 - `package.json`: Lists the dependencies and scripts for the frontend application.
@@ -98,6 +99,3 @@ The frontend application is built using Next.js and is located in the `app/` dir
 ## Recording
 
 https://github.com/user-attachments/assets/2247444a-78ab-43cc-a7f3-0f78f9c924e3
-
-
-
