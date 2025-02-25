@@ -15,10 +15,10 @@ export class ShareController {
   @SkipJwtauth()
   @Get('/users/:id/memories')
   findAllMemoriesByUserId(
+    @Param('id') id: string,
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 10,
     @Query('order') order: string,
-    @Param('id') id: string,
   ) {
     page = Number(page) || 1;
     limit = Number(limit) || 10;
