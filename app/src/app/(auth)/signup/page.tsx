@@ -43,7 +43,7 @@ export default function Signup() {
                     onChange={handleChange}
                   />
                   <p className="text-red-600 text-sm">
-                    {errors.email && touched.email && errors.email}
+                    {errors.fullName && touched.fullName && errors.fullName}
                   </p>
                 </div>
                 <div className="gap-2 flex flex-col">
