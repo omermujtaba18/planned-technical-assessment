@@ -1,16 +1,22 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ShareService } from './share.service';
 import { UsersService } from '../users/users.service';
+import { MemoriesService } from '../memories/memories.service';
 
 describe('ShareService', () => {
   let service: ShareService;
   let usersService: UsersService;
 
   const mockUsersService = {
-    findOneWithMemories: jest.fn().mockResolvedValue({
+    findOne: jest.fn().mockResolvedValue({
       id: 1,
-      name: 'John Doe',
-      memories: [
+      fullName: 'John Doe',
+    }),
+  };
+
+  const mockMemoriesService = {
+    findAllByUserId: jest.fn().mockResolvedValue({
+      data: [
         {
           id: 1,
           title: 'Some title',
@@ -18,6 +24,9 @@ describe('ShareService', () => {
           media: [{ id: 1, url: 'http://example.com/image.jpg' }],
         },
       ],
+      totalPages: 1,
+      currentPage: 1,
+      totalItems: 1,
     }),
   };
 
@@ -26,6 +35,7 @@ describe('ShareService', () => {
       providers: [
         ShareService,
         { provide: UsersService, useValue: mockUsersService },
+        { provide: MemoriesService, useValue: mockMemoriesService },
       ],
     }).compile();
 
@@ -37,14 +47,31 @@ describe('ShareService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should call findOneWithMemories and return user data', async () => {
+  it('should call findOne and return user data', async () => {
     const id = 1;
-    const result = await service.findOne(id);
+    const result = await service.findOneByUserId(id);
 
     expect(result).toEqual({
       id: 1,
-      name: 'John Doe',
-      memories: [
+      fullName: 'John Doe',
+    });
+    expect(usersService.findOne).toHaveBeenCalledWith(id);
+  });
+
+  it('should call findAllMemoriesByUserId and return memory data', async () => {
+    const id = 1;
+    const page = 1;
+    const limit = 10;
+    const order = 'DESC';
+    const result = await service.findAllMemoriesByUserId(
+      id,
+      page,
+      limit,
+      order,
+    );
+
+    expect(result).toEqual({
+      data: [
         {
           id: 1,
           title: 'Some title',
@@ -52,7 +79,9 @@ describe('ShareService', () => {
           media: [{ id: 1, url: 'http://example.com/image.jpg' }],
         },
       ],
+      totalPages: 1,
+      currentPage: 1,
+      totalItems: 1,
     });
-    expect(usersService.findOneWithMemories).toHaveBeenCalledWith(id);
   });
 });

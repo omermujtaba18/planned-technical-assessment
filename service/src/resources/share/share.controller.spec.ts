@@ -7,10 +7,12 @@ describe('ShareController', () => {
   let service: ShareService;
 
   const mockShareService = {
-    findOne: jest.fn().mockImplementation((id) => ({
+    findOneByUserId: jest.fn().mockResolvedValue({
       id: 1,
-      name: 'John Doe',
-      memories: [
+      fullName: 'John Doe',
+    }),
+    findAllMemoriesByUserId: jest.fn().mockResolvedValue({
+      data: [
         {
           id: 1,
           title: 'Some title',
@@ -18,7 +20,10 @@ describe('ShareController', () => {
           media: [{ id: 1, url: 'http://example.com/image.jpg' }],
         },
       ],
-    })),
+      totalPages: 2,
+      currentPage: 2,
+      totalItems: 1,
+    }),
   };
 
   beforeEach(async () => {
@@ -35,12 +40,22 @@ describe('ShareController', () => {
     expect(controller).toBeDefined();
   });
 
-  it('should call findOne and return the expected result', async () => {
+  it('should call findOneByUserId and return expected user data', async () => {
     const id = '1';
+    const result = { id: 1, fullName: 'John Doe' };
+
+    expect(await controller.findOneByUserId(id)).toEqual(result);
+    expect(service.findOneByUserId).toHaveBeenCalledWith(1);
+  });
+
+  it('should call findAllMemoriesByUserId and return expected memory data', async () => {
+    const id = '1';
+    const page = 2;
+    const limit = 5;
+    const order = 'ASC';
+
     const result = {
-      id: 1,
-      name: 'John Doe',
-      memories: [
+      data: [
         {
           id: 1,
           title: 'Some title',
@@ -48,9 +63,19 @@ describe('ShareController', () => {
           media: [{ id: 1, url: 'http://example.com/image.jpg' }],
         },
       ],
+      totalPages: 2,
+      currentPage: 2,
+      totalItems: 1,
     };
 
-    expect(await controller.findOne(id)).toEqual(result);
-    expect(service.findOne).toHaveBeenCalledWith(1);
+    expect(
+      await controller.findAllMemoriesByUserId(id, page, limit, order),
+    ).toEqual(result);
+    expect(service.findAllMemoriesByUserId).toHaveBeenCalledWith(
+      1,
+      2,
+      5,
+      'ASC',
+    );
   });
 });
