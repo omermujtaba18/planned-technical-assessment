@@ -1,0 +1,5 @@
+{
+  "message": "Account with the provided email already exists",
+  "error": "BadRequest",
+  "statusCode": 400
+}

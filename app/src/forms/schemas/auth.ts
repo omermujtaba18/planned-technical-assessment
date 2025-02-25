@@ -14,7 +14,7 @@ export const signupSchema = {
     fullName: Yup.string().required("Full name is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
     password: Yup.string()
-      .length(10, "Password must be at least 10 characters long")
+      .min(10, "Password must be at least 10 characters long")
       .required("Password is required"),
   }),
 };
