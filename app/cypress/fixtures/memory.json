@@ -1,0 +1,12 @@
+{
+  "id": 1,
+  "title": "A New Memory",
+  "description": "This is a description of a new memory.",
+  "timestamp": "2024-02-25T10:30",
+  "media": [
+    {
+      "id": 1,
+      "url": "http://localhost:5001/uploads/example-image.jpg"
+    }
+  ]
+}

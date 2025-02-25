@@ -58,6 +58,7 @@ const CreateMemory: React.FC<CreateMemoryProps> = ({ user: propUser }) => {
                 variant="secondary"
                 size="xl"
                 onClick={() => setUI({ shareDialog: { state: true } })}
+                id="share-button"
               >
                 <Share2 />
                 Share
@@ -66,6 +67,7 @@ const CreateMemory: React.FC<CreateMemoryProps> = ({ user: propUser }) => {
                 variant="gradient"
                 size="xl"
                 onClick={() => setUI({ memoryDialog: { state: true } })}
+                id="create-memory-button"
               >
                 Create Memory
               </Button>

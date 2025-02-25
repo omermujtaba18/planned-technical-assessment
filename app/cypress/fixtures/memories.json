@@ -1,0 +1,14 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "title": "Memory Title",
+      "description": "Memory description",
+      "timestamp": "2021-01-01T00:00:00.000Z",
+      "media": [{ "id": 1, "url": "http://localhost:5001/uploads/image.png" }]
+    }
+  ],
+  "totalPages": 1,
+  "totalItems": 1,
+  "currentPage": 1
+}
