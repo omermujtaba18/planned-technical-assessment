@@ -13,7 +13,6 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import Link from "next/link";
-import { useMemo } from "react";
 import { IUser } from "@/interfaces/user";
 
 interface CreateMemoryProps {
@@ -24,7 +23,7 @@ const CreateMemory: React.FC<CreateMemoryProps> = ({ user: propUser }) => {
   const { setUI } = useUIStore();
   const storeUser = useUserStore((state) => state.user);
 
-  const user = useMemo(() => propUser || storeUser, [propUser, storeUser]);
+  const user = propUser || storeUser;
 
   if (!user) return null;
 
@@ -34,7 +33,7 @@ const CreateMemory: React.FC<CreateMemoryProps> = ({ user: propUser }) => {
         <CardContent className="flex flex-col gap-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-4">
-              <UserAvatar user={propUser ? propUser : undefined} />
+              <UserAvatar user={user} />
               <h1 className="text-xl font-medium">{`${user.fullName.split(" ")[0]}'s Memory Lane`}</h1>
             </div>
             {!propUser && (

@@ -2,8 +2,12 @@
 
 import CreateMemory from "@/components/home/create-memory";
 import MemoryList from "@/components/home/memory-list";
-import { getShareAction } from "@/forms/actions/share";
+import {
+  getShareMemoriesAction,
+  getShareUserAction,
+} from "@/forms/actions/share";
 import { IMemory } from "@/interfaces/memory";
+import { IPaging } from "@/interfaces/paging";
 import { IUser } from "@/interfaces/user";
 import { useEffect, useState } from "react";
 
@@ -13,14 +17,23 @@ export default function ShareMemoryLane({
   params: Promise<{ id: string }>;
 }) {
   const [user, setUser] = useState<IUser>();
-  const [memories, setMemories] = useState<IMemory[]>();
+  const [memories, setMemories] = useState<IMemory[]>([]);
+  const [paging, setPaging] = useState<IPaging>({
+    totalItems: 0,
+    totalPages: 0,
+    currentPage: 0,
+  });
 
   useEffect(() => {
     const fetchData = async () => {
       const id = (await params).id;
-      getShareAction(id).then((data) => {
+      getShareUserAction(id).then((data) => {
         setUser(data.data);
-        setMemories(data.data.memories);
+      });
+      getShareMemoriesAction(id).then((response) => {
+        const { data, ...paging } = response.data;
+        setMemories(data);
+        setPaging(paging);
       });
     };
 
@@ -30,7 +43,12 @@ export default function ShareMemoryLane({
   return (
     <>
       <CreateMemory user={user} />
-      <MemoryList memories={memories} />
+      <MemoryList
+        memories={memories}
+        paging={paging}
+        setMemories={setMemories}
+        setPaging={setPaging}
+      />
     </>
   );
 }
