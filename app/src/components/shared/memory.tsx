@@ -14,9 +14,10 @@ import { deleteMemoryAction } from "@/forms/actions/memory";
 
 interface MemoryProps {
   memory: IMemory;
+  isShared?: boolean;
 }
 
-const Memory: React.FC<MemoryProps> = ({ memory }) => {
+const Memory: React.FC<MemoryProps> = ({ memory, isShared }) => {
   return (
     <>
       <Card className="min-w-[calc(50%-1rem)] max-w-[calc(50%-1rem)] max-h-fit hover:shadow-xl transition-all group p-0 overflow-hidden">
@@ -52,17 +53,21 @@ const Memory: React.FC<MemoryProps> = ({ memory }) => {
                 })}
               </p>
             </div>
-            <DropdownMenu>
-              <DropdownMenuTrigger className="h-fit">
-                <Ellipsis />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem>Edit</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => deleteMemoryAction(memory.id)}>
-                  Delete
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {isShared && (
+              <DropdownMenu>
+                <DropdownMenuTrigger className="h-fit">
+                  <Ellipsis />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem>Edit</DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => deleteMemoryAction(memory.id)}
+                  >
+                    Delete
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </div>
           <p className="text-gray-500 mb-4 text-sm text-pretty">
             {memory.description}

@@ -1,11 +1,11 @@
 import { IMemory } from "@/interfaces/memory";
-import { Paging } from "@/interfaces/paging";
+import { IPaging } from "@/interfaces/paging";
 import { create } from "zustand";
 
 interface MemoryStore {
   memories: IMemory[];
-  paging: Paging;
-  setPaging: (paging: Paging) => void;
+  paging: IPaging;
+  setPaging: (paging: IPaging) => void;
   addMemories: (memories: IMemory[]) => void;
   createMemory: (memory: IMemory) => void;
   deleteMemory: (id: string) => void;
