@@ -1,4 +1,9 @@
+> This project is my implementation of [Planned](https://planned.com/) technical assessment.  
+> 📌 You can find the assessment instructions [here](./ASSESSMENT.md).
+
 # Project Overview
+
+## Description
 
 This project is a web application built with Next.js for the frontend and NestJS for the backend. The application is structured into two main directories: `app` and `service`.
 
